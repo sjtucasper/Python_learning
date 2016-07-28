@@ -62,7 +62,7 @@ for userid in a:
 			a[userid].serial_number=a[userid].serial_number+1
 
 #output
-with open('miss_info_list.txt','w') as f:
+with open('miss_info_list.csv','w') as f:
 	f.write(str(noneinfocolleague))
 flag=0
 serial_number=1
@@ -76,8 +76,6 @@ with open('output.csv','w') as f:
 					if a[userid].data != {}:
 						count = 0
 						temp_data = sorted(a[userid].data.items(),key=lambda temp: temp[1], reverse = True)
-						print(a[userid].data)
-						print(temp_data)
 						while count < 10 :
 							if count < len(temp_data):
 								f.write('"%s","%s","%s","%s","%s","%s"\n'%(a[userid].serial_number, userid, temp_data[count][0], a[userid].data[temp_data[count][0]], a[userid].name, a[userid].department))
