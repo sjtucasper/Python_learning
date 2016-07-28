@@ -56,29 +56,27 @@ add_data_from_csv(a, 'morning.csv')
 add_data_from_csv(a, 'afternoon.csv')
 
 #sort
-for userid in a:
-	for compare in a:
-		if a[compare].total_data > a[userid].total_data:
-			a[userid].serial_number=a[userid].serial_number+1
+sorted_list=sorted(a.items(), key=lambda temp: temp[1].total_data, reverse = True)
+# for userid in a:
+# 	for compare in a:
+# 		if a[compare].total_data > a[userid].total_data:
+# 			a[userid].serial_number=a[userid].serial_number+1
 
 #output
 with open('miss_info_list.csv','w') as f:
 	f.write(str(noneinfocolleague))
-flag=0
+
 serial_number=1
 with open('output.csv','w') as f:
-	while flag == 0:
-		flag = 1
-		for userid in a:
-			if userid != '':
-				if a[userid].serial_number == serial_number:
-					flag = 0
-					if a[userid].data != {}:
-						count = 0
-						temp_data = sorted(a[userid].data.items(),key=lambda temp: temp[1], reverse = True)
-						while count < 10 :
-							if count < len(temp_data):
-								f.write('"%s","%s","%s","%s","%s","%s"\n'%(a[userid].serial_number, userid, temp_data[count][0], a[userid].data[temp_data[count][0]], a[userid].name, a[userid].department))
-							count = count + 1
+	while serial_number < len(sorted_list) :
+		userid = sorted_list[serial_number][0]
+		if userid != '':
+			if a[userid].data != {}:
+				count = 0
+				temp_data = sorted(a[userid].data.items(),key=lambda temp: temp[1], reverse = True)
+				while count < 10 :
+					if count < len(temp_data):
+						f.write('"%s","%s","%s","%s","%s","%s"\n'%(serial_number, userid, temp_data[count][0], a[userid].data[temp_data[count][0]], a[userid].name, a[userid].department))
+					count = count + 1
 		serial_number = serial_number+1
 
